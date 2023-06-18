@@ -1,21 +1,21 @@
 {
-  "name": "rj-downloader-bot",
+  "name": "rjgrabber-bot",
   "version": "1.0.0",
-  "description": "RJ Downloader Telegram bot",
+  "description": "RJGrabber Telegram bot",
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AlirezaBaratian/rj-downloader.git"
+    "url": "git+https://github.com/AlirezaBaratian/RJGrabber.git"
   },
   "author": "Alireza Baratian",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AlirezaBaratian/rj-downloader/issues"
+    "url": "https://github.com/AlirezaBaratian/RJGrabber/issues"
   },
-  "homepage": "https://github.com/AlirezaBaratian/rj-downloader#readme",
+  "homepage": "https://github.com/AlirezaBaratian/RJGrabber#readme",
   "dependencies": {
     "axios": "^1.4.0",
     "cheerio": "^1.0.0-rc.12",
