@@ -1,10 +1,7 @@
-const { parse } = require("dotenv");
 const TelegramBot = require("node-telegram-bot-api");
-
 require("dotenv").config();
 
 botToken = process.env.BOT_TOKEN;
-
 const bot = new TelegramBot(botToken, { polling: true });
 
 function sendErrorMessage(chatId) {
@@ -20,7 +17,6 @@ function parseUrl(url) {
 }
 
 function sendMedia(chatId, url) {
-  // Parse the sent url
   trackData = parseUrl(url);
   const mediaType = trackData[0];
   const mediaName = trackData[1];
