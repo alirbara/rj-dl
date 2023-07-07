@@ -44,7 +44,7 @@ function sendMusic(chatId, mediaName) {
 function sendPodcast(chatId, mediaName) {
   const podcastFileUnavailable =
     "⚠️ در حال حاضر، به دلیل محدودیت تلگرام، فایل‌های پادکست قابل آپلود نیستند.\n👇🏼 می‌تونید پادکست رو از لینک زیر دریافت کنید:\n\n🔗";
-  // Endpoints of music files on RJ
+  
   const podcastEndpoint = "https://host2.rj-mw1.com/media/podcast/mp3-320/";
   const podcastFileExtension = ".mp3";
 
