@@ -28,6 +28,9 @@ function sendMedia(chatId, url) {
     case "podcast":
       sendPodcast(chatId, mediaName);
       break;
+    case "video":
+      sendVideo(chatId, mediaName);
+      break;
     default:
       sendErrorMessage(chatId);
   }
@@ -44,12 +47,22 @@ function sendMusic(chatId, mediaName) {
 function sendPodcast(chatId, mediaName) {
   const podcastFileUnavailable =
     "⚠️ در حال حاضر، به دلیل محدودیت تلگرام، فایل‌های پادکست قابل آپلود نیستند.\n👇🏼 می‌تونید پادکست رو از لینک زیر دریافت کنید:\n\n🔗";
-  
+
   const podcastEndpoint = "https://host2.rj-mw1.com/media/podcast/mp3-320/";
   const podcastFileExtension = ".mp3";
 
   const podcastUrl = podcastEndpoint + mediaName + podcastFileExtension;
   bot.sendMessage(chatId, podcastFileUnavailable + podcastUrl);
+}
+
+function sendVideo(chatId, mediaName) {
+  const videoFileUnavailable =
+    "⚠️ در حال حاضر، به دلیل محدودیت تلگرام، فایل‌های موزیک ویدیو قابل آپلود نیستند.\n👇🏼 می‌تونید پادکست رو از لینک زیر دریافت کنید:\n\n🔗";
+  const videoEndpoint = "https://host2.rj-mw1.com/media/music_video/hd/";
+  const videoFileExtension = ".mp4";
+
+  const videoUrl = videoEndpoint + mediaName + videoFileExtension;
+  bot.sendMessage(chatId, videoFileUnavailable + videoUrl);
 }
 
 bot.on("message", (msg) => {
