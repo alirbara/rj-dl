@@ -1,5 +1,6 @@
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
+const axios = require("axios");
 
 botToken = process.env.BOT_TOKEN;
 const bot = new TelegramBot(botToken, { polling: true });
@@ -63,6 +64,12 @@ function sendVideo(chatId, mediaName) {
 
   const videoUrl = videoEndpoint + mediaName + videoFileExtension;
   bot.sendMessage(chatId, videoFileUnavailable + videoUrl);
+}
+
+function followRedirects(url) {
+  axios.get(url).catch(error => {console.log(error);}).then(response => {
+    return response.request._redirectable._currentUrl;
+  })
 }
 
 bot.on("message", (msg) => {
