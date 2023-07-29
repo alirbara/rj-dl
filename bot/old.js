@@ -125,20 +125,19 @@ bot.on("message", (msg) => {
       }
     });
 
-
     axios
-  .get(sentUrl, {
-    headers: { "Accept-Encoding": "gzip,deflate,compress" },
-  })
-  .catch((error) => {
-    console.log(error);
-    bot.sendMessage(
-      chatId,
-      "😣 متأسفانه لینک قابل بررسی نیست \n 🙏🏻 لطفاً‌ دوباره امتحان کنید"
-    );
-  })
-  .then((response) => {
-    sentUrl = response.request._redirectable._currentUrl || sentUrl;
+      .get(sentUrl, {
+        headers: { "Accept-Encoding": "gzip,deflate,compress" },
+      })
+      .catch((error) => {
+        console.log(error);
+        bot.sendMessage(
+          chatId,
+          "😣 متأسفانه لینک قابل بررسی نیست \n 🙏🏻 لطفاً‌ دوباره امتحان کنید"
+        );
+      })
+      .then((response) => {
+        sentUrl = response.request._redirectable._currentUrl || sentUrl;
         sentUrl = sentUrl.split("#")[0];
         sentUrl = sentUrl.split("?")[0];
         const splitUrl = sentUrl.split("/");
@@ -420,8 +419,7 @@ bot.on("message", (msg) => {
             "متأسفانه لینک قابل بررسی نیست 😣 \n دوباره یک لینک دیگر را امتحان کنید 🙏🏻"
           );
         }
-  });
-  
+      });
 
     // request({ uri: sentUrl, followRedirect: true }, (err, httpResponse) => {
     //   if (err) {
@@ -431,7 +429,7 @@ bot.on("message", (msg) => {
     //       "😣 متأسفانه لینک قابل بررسی نیست \n 🙏🏻 لطفاً‌ دوباره امتحان کنید"
     //     );
     //   } else {
-        
+
     //   }
     // });
   } else {
