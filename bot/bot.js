@@ -67,9 +67,15 @@ function sendVideo(chatId, mediaName) {
 }
 
 function followRedirects(url) {
-  axios.get(url).catch(error => {console.log(error);}).then(response => {
-    return response.request._redirectable._currentUrl;
-  })
+  url = url.replace("https://", "http://")
+  axios
+    .get(url)
+    .catch((error) => {
+      console.log(error);
+    })
+    .then((response) => {
+      return response.request._redirectable._currentUrl;
+    });
 }
 
 bot.on("message", (msg) => {
@@ -79,7 +85,10 @@ bot.on("message", (msg) => {
   const wrongInputMessage = "I'm affraid that's a wrong input! 😢";
 
   if (messageText.startsWith("https://")) {
-    sendMedia(chatId, messageText);
+    let url = messageText;
+    url = followRedirects(url) || url;
+    console.log(url);
+    sendMedia(chatId, url);
   } else {
     switch (messageText) {
       case "/start":
@@ -93,7 +102,7 @@ bot.on("message", (msg) => {
             reply_to_message_id: msg.message_id,
           }
         );
-        break
+        break;
       default:
         bot.sendMessage(chatId, wrongInputMessage);
     }
