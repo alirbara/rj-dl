@@ -86,7 +86,7 @@ async function parseMessage(msg) {
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    // url = followRedirects(userId, url);
+    url = await followRedirects(userId, url) || url;
     sendMedia(userId, url);
   } else {
     switch (messageText) {
@@ -108,15 +108,15 @@ async function parseMessage(msg) {
   }
 }
 
-// async function followRedirects(userId, url) {
-//   try {
-//     let response = await axios.get(url);
-//     return response.request._redirectable._currentUrl;
-//   } catch (error) {
-//     console.log(error);
-//     sendErrorMessage(userId);
-//   }
-// }
+async function followRedirects(userId, url) {
+  try {
+    let response = await axios.get(url);
+    return response.request._redirectable._currentUrl;
+  } catch (error) {
+    console.log(error);
+    sendErrorMessage(userId);
+  }
+}
 
 bot.on("message", (msg) => {
   parseMessage(msg);
