@@ -67,7 +67,7 @@ function sendVideo(chatId, mediaName) {
 }
 
 function followRedirects(url) {
-  url = url.replace("https://", "http://");
+  url = url.replace("https://");
   axios
     .get(url)
     .catch((error) => {
