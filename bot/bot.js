@@ -67,7 +67,7 @@ function sendVideo(chatId, mediaName) {
 }
 
 function followRedirects(url) {
-  url = url.replace("https://", "http://")
+  url = url.replace("https://", "http://");
   axios
     .get(url)
     .catch((error) => {
@@ -78,21 +78,20 @@ function followRedirects(url) {
     });
 }
 
-bot.on("message", (msg) => {
+async function parseMessage(msg) {
   const messageText = msg.text;
-  const chatId = msg.chat.id;
-  const welcomeMessage = "Welcome! 🌹";
-  const wrongInputMessage = "I'm affraid that's a wrong input! 😢";
+  const userId = msg.from.id;
+  const welcomeMessage = "خوش آمدید! 🌹";
+  const wrongInputMessage = "پیامی که ارسال کردید اشتباهه! 😢";
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    url = followRedirects(url) || url;
-    console.log(url);
-    sendMedia(chatId, url);
+    // url = followRedirects(userId, url);
+    sendMedia(userId, url);
   } else {
     switch (messageText) {
       case "/start":
-        bot.sendMessage(chatId, welcomeMessage);
+        bot.sendMessage(userId, welcomeMessage);
         break;
       case "📕 راهنما":
         bot.sendMessage(
@@ -104,9 +103,23 @@ bot.on("message", (msg) => {
         );
         break;
       default:
-        bot.sendMessage(chatId, wrongInputMessage);
+        bot.sendMessage(userId, wrongInputMessage);
     }
   }
+}
+
+// async function followRedirects(userId, url) {
+//   try {
+//     let response = await axios.get(url);
+//     return response.request._redirectable._currentUrl;
+//   } catch (error) {
+//     console.log(error);
+//     sendErrorMessage(userId);
+//   }
+// }
+
+bot.on("message", (msg) => {
+  parseMessage(msg);
 });
 
 bot.on("polling_error", (err) => {
