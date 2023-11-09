@@ -1,2 +1,3 @@
-# RJGrabber
-RJGrabber aids users to download media from Radio Javan.
+# Radio Javan Downloader
+
+Download [Radio Javan](https://play.radiojavan.com/)
