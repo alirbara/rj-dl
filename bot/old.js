@@ -420,18 +420,6 @@ bot.on("message", (msg) => {
           );
         }
       });
-
-    // request({ uri: sentUrl, followRedirect: true }, (err, httpResponse) => {
-    //   if (err) {
-    //     console.log(err);
-    //     bot.sendMessage(
-    //       chatId,
-    //       "😣 متأسفانه لینک قابل بررسی نیست \n 🙏🏻 لطفاً‌ دوباره امتحان کنید"
-    //     );
-    //   } else {
-
-    //   }
-    // });
   } else {
     switch (sentMessage) {
       case "/start":
