@@ -1,6 +1,9 @@
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 const axios = require("axios");
+const mongoose = require('mongoose')
+const databaseName = "rjDownloaderDB"
+mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
 
 botToken = process.env.BOT_TOKEN;
 const bot = new TelegramBot(botToken, { polling: true });
