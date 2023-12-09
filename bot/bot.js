@@ -4,9 +4,33 @@ const axios = require("axios");
 const mongoose = require('mongoose')
 const databaseName = "rjDownloaderDB"
 mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
-
 botToken = process.env.BOT_TOKEN;
 const bot = new TelegramBot(botToken, { polling: true });
+
+const Schema = mongoose.Schema
+const ObjectId = mongoose.Types.ObjectId
+
+const userSchema = new Schema({
+  _id: ObjectId,
+  telegram_id: String,
+  telegram_first_name: String,
+  telegram_last_name: String,
+  telegram_username: String,
+});
+
+const User = mongoose.model("User", userSchema)
+
+async function addUser(msg) {
+  const newUser = new User({
+    _id: new ObjectId(),
+    telegram_id: msg.from.id,
+    telegram_first_name: msg.from.first_name,
+    telegram_last_name: msg.from.last_name,
+    telegram_username: msg.from.username,
+  })
+
+  newUser.save()
+} 
 
 function sendErrorMessage(chatId) {
   bot.sendMessage(chatId, "Error!");
@@ -121,10 +145,15 @@ async function followRedirects(userId, url) {
   }
 }
 
-bot.on("message", (msg) => {
-  parseMessage(msg);
-});
+async function main() {
+  bot.on("message", (msg) => {
+    addUser(msg)
+    parseMessage(msg);
+  });
 
-bot.on("polling_error", (err) => {
-  console.log(err);
-});
+  bot.on("polling_error", (err) => {
+    console.log(err);
+  });
+}
+
+main()
