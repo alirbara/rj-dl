@@ -5,7 +5,7 @@ require("dotenv").config();
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const token = process.env.TOKEN;
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 mongoose.connect("mongodb://localhost:27017/rjdownloader", {
