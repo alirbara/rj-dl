@@ -1,24 +1,50 @@
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 const axios = require("axios");
-const mongoose = require('mongoose')
-const databaseName = "rjDownloaderDB"
-mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`)
+const mongoose = require("mongoose");
+const databaseName = "rjDownloaderDB";
+mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`);
 botToken = process.env.BOT_TOKEN;
 const bot = new TelegramBot(botToken, { polling: true });
 
-const Schema = mongoose.Schema
-const ObjectId = mongoose.Types.ObjectId
+const ObjectId = mongoose.Types.ObjectId;
+const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-  _id: ObjectId,
-  telegram_id: String,
-  telegram_first_name: String,
-  telegram_last_name: String,
-  telegram_username: String,
-});
+const userSchema = new Schema(
+  {
+    _id: ObjectId,
+    telegram_id: String,
+    telegram_first_name: String,
+    telegram_last_name: String,
+    telegram_username: String,
+    media: [{type: ObjectId, ref: "Media"}]
+  },
+  { timestamps: true }
+);
 
-const User = mongoose.model("User", userSchema)
+const mediaSchema = new Schema(
+  {
+    _id: ObjectId,
+    url: String,
+    type: String,
+    user: {type: ObjectId, ref: "User"}
+  },
+  { timestamps: true }
+);
+
+const User = mongoose.model("User", userSchema);
+const Media = mongoose.model("Media", mediaSchema);
+
+async function checkUser(msg) {
+  try {
+    let user = await User.findOne({ telegram_id: msg.from.id });
+    if (!user) {
+      addUser(msg);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 async function addUser(msg) {
   const newUser = new User({
@@ -27,10 +53,9 @@ async function addUser(msg) {
     telegram_first_name: msg.from.first_name,
     telegram_last_name: msg.from.last_name,
     telegram_username: msg.from.username,
-  })
-
-  newUser.save()
-} 
+  });
+  newUser.save();
+}
 
 function sendErrorMessage(chatId) {
   bot.sendMessage(chatId, "Error!");
@@ -113,7 +138,8 @@ async function parseMessage(msg) {
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    url = await followRedirects(userId, url) || url;
+    addMedia(messageText)
+    url = (await followRedirects(userId, url)) || url;
     sendMedia(userId, url);
   } else {
     switch (messageText) {
@@ -147,7 +173,7 @@ async function followRedirects(userId, url) {
 
 async function main() {
   bot.on("message", (msg) => {
-    addUser(msg)
+    checkUser(msg);
     parseMessage(msg);
   });
 
@@ -156,4 +182,4 @@ async function main() {
   });
 }
 
-main()
+main();
