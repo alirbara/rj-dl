@@ -17,7 +17,7 @@ const userSchema = new Schema(
     telegram_first_name: String,
     telegram_last_name: String,
     telegram_username: String,
-    media: [{type: ObjectId, ref: "Media"}]
+    media: [{ type: ObjectId, ref: "Media" }],
   },
   { timestamps: true }
 );
@@ -27,7 +27,7 @@ const mediaSchema = new Schema(
     _id: ObjectId,
     url: String,
     type: String,
-    user: {type: ObjectId, ref: "User"}
+    user: { type: ObjectId, ref: "User" },
   },
   { timestamps: true }
 );
@@ -54,7 +54,11 @@ async function addUser(msg) {
     telegram_last_name: msg.from.last_name,
     telegram_username: msg.from.username,
   });
-  newUser.save();
+  try {
+    await newUser.save();
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 function sendErrorMessage(chatId) {
@@ -138,7 +142,7 @@ async function parseMessage(msg) {
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    addMedia(messageText)
+    addMedia(messageText);
     url = (await followRedirects(userId, url)) || url;
     sendMedia(userId, url);
   } else {
