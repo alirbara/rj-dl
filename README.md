@@ -50,6 +50,11 @@ echo "BOT_TOKEN=<your-bot-token>" > .env
 node bot.js
 ```
 
+## Credits
+
+- [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api)
+- [mongoose](https://github.com/Automattic/mongoose)
+
 ## Donation
 
 If you found this project helpful, you ca definitely donate:
