@@ -35,6 +35,16 @@ const mediaSchema = new Schema(
 const User = mongoose.model("User", userSchema);
 const Media = mongoose.model("Media", mediaSchema);
 
+async function checkMember(userId) {
+  const channel = "@alireza_devops";
+  try {
+    let user = await bot.getChatMember(channel, userId);
+    return user.status
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 async function sendKeyboard(chatId) {
   const mainMenu = [[{ text: "📕 راهنما" }, { text: "⏬ دانلود" }]];
   bot.sendMessage(chatId, "⌨️ منوی اصلی 👇", {
@@ -169,6 +179,23 @@ function followRedirects(url) {
     });
 }
 
+async function parseRequest(userId, url) {
+  let userStatus = await checkMember(userId)
+  if (userStatus != "member") {
+    bot.sendMessage(userId, "برای ادامه عضو کانال زیر شوید: 👇", {
+      reply_markup: JSON.stringify({
+        inline_keyboard: [[
+          {text: "😀 کانال شخصی توسعه دهنده ربات", url: "https://t.me/alireza_devops"}
+        ]]
+      })
+    });
+  }
+  else {
+    url = (await followRedirects(userId, url)) || url;
+    sendMedia(userId, url);
+  }
+}
+
 async function parseMessage(msg) {
   const messageText = msg.text;
   const userId = msg.from.id;
@@ -177,13 +204,11 @@ async function parseMessage(msg) {
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    url = (await followRedirects(userId, url)) || url;
-    sendMedia(userId, url);
+    parseRequest(userId, url)
   } else {
     switch (messageText) {
       case "/start":
         bot.sendMessage(userId, welcomeMessage);
-        sendKeyboard(userId);
         break;
       case "📕 راهنما":
         await bot.sendMessage(
@@ -200,7 +225,7 @@ async function parseMessage(msg) {
       default:
         await bot.sendMessage(userId, wrongInputMessage);
     }
-    sendKeyboard(userId)
+    sendKeyboard(userId);
   }
 }
 
