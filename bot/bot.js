@@ -39,7 +39,7 @@ async function checkMember(userId) {
   const channel = "@alireza_devops";
   try {
     let user = await bot.getChatMember(channel, userId);
-    return user.status
+    return user.status;
   } catch (err) {
     console.log(err);
   }
@@ -180,17 +180,21 @@ function followRedirects(url) {
 }
 
 async function parseRequest(userId, url) {
-  let userStatus = await checkMember(userId)
+  let userStatus = await checkMember(userId);
   if (userStatus != "member") {
     bot.sendMessage(userId, "برای ادامه عضو کانال زیر شوید: 👇", {
       reply_markup: JSON.stringify({
-        inline_keyboard: [[
-          {text: "😀 کانال شخصی توسعه دهنده ربات", url: "https://t.me/alireza_devops"}
-        ]]
-      })
+        inline_keyboard: [
+          [
+            {
+              text: "😀 کانال شخصی توسعه دهنده ربات",
+              url: "https://t.me/alireza_devops",
+            },
+          ],
+        ],
+      }),
     });
-  }
-  else {
+  } else {
     url = (await followRedirects(userId, url)) || url;
     sendMedia(userId, url);
   }
@@ -204,7 +208,7 @@ async function parseMessage(msg) {
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    parseRequest(userId, url)
+    parseRequest(userId, url);
   } else {
     switch (messageText) {
       case "/start":
