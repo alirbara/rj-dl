@@ -35,6 +35,27 @@ const mediaSchema = new Schema(
 const User = mongoose.model("User", userSchema);
 const Media = mongoose.model("Media", mediaSchema);
 
+async function addMedia(user_id, url, type) {
+  try {
+    let user = await User.findOne({telegram_id: user_id})
+    newMedia = new Media({
+      _id: new ObjectId(),
+      url: url,
+      type: type,
+      user: user._id
+    })
+    try {
+      let media = await newMedia.save()
+      user.media.push(media._id)
+      user.save()
+    } catch(err) {
+      console.log(err);
+    }
+  } catch(err) {
+    console.log(err);
+  }
+}
+
 async function checkUser(msg) {
   try {
     let user = await User.findOne({ telegram_id: msg.from.id });
@@ -77,6 +98,8 @@ function sendMedia(chatId, url) {
   trackData = parseUrl(url);
   const mediaType = trackData[0];
   const mediaName = trackData[1];
+
+  addMedia(chatId, url, mediaType)
 
   switch (mediaType) {
     case "song":
@@ -142,7 +165,6 @@ async function parseMessage(msg) {
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    addMedia(messageText);
     url = (await followRedirects(userId, url)) || url;
     sendMedia(userId, url);
   } else {
