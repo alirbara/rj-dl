@@ -35,23 +35,34 @@ const mediaSchema = new Schema(
 const User = mongoose.model("User", userSchema);
 const Media = mongoose.model("Media", mediaSchema);
 
+async function sendKeyboard(chatId) {
+  const mainMenu = [[{ text: "📕 راهنما" }, { text: "⏬ دانلود" }]];
+  bot.sendMessage(chatId, "⌨️ منوی اصلی 👇", {
+    reply_markup: JSON.stringify({
+      keyboard: mainMenu,
+      resize_keyboard: true,
+      one_time_keyboard: true,
+    }),
+  });
+}
+
 async function addMedia(user_id, url, type) {
   try {
-    let user = await User.findOne({telegram_id: user_id})
+    let user = await User.findOne({ telegram_id: user_id });
     newMedia = new Media({
       _id: new ObjectId(),
       url: url,
       type: type,
-      user: user._id
-    })
+      user: user._id,
+    });
     try {
-      let media = await newMedia.save()
-      user.media.push(media._id)
-      user.save()
-    } catch(err) {
+      let media = await newMedia.save();
+      user.media.push(media._id);
+      user.save();
+    } catch (err) {
       console.log(err);
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 }
@@ -83,7 +94,7 @@ async function addUser(msg) {
 }
 
 function sendErrorMessage(chatId) {
-  bot.sendMessage(chatId, "Error!");
+  bot.sendMessage(chatId, "خطایی پیش آمد‼️");
 }
 
 function parseUrl(url) {
@@ -94,29 +105,30 @@ function parseUrl(url) {
   return [url[3], url[4]];
 }
 
-function sendMedia(chatId, url) {
+async function sendMedia(chatId, url) {
   trackData = parseUrl(url);
   const mediaType = trackData[0];
   const mediaName = trackData[1];
 
-  addMedia(chatId, url, mediaType)
+  addMedia(chatId, url, mediaType);
 
   switch (mediaType) {
     case "song":
-      sendMusic(chatId, mediaName);
+      await sendMusic(chatId, mediaName);
       break;
     case "podcast":
-      sendPodcast(chatId, mediaName);
+      await sendPodcast(chatId, mediaName);
       break;
     case "video":
-      sendVideo(chatId, mediaName);
+      await sendVideo(chatId, mediaName);
       break;
     default:
       sendErrorMessage(chatId);
   }
+  sendKeyboard(chatId);
 }
 
-function sendMusic(chatId, mediaName) {
+async function sendMusic(chatId, mediaName) {
   const musicEndpoint = "https://host2.rj-mw1.com/media/mp3/mp3-320/";
   const musicFileExtension = ".mp3";
 
@@ -124,7 +136,7 @@ function sendMusic(chatId, mediaName) {
   bot.sendAudio(chatId, musicUrl);
 }
 
-function sendPodcast(chatId, mediaName) {
+async function sendPodcast(chatId, mediaName) {
   const podcastFileUnavailable =
     "⚠️ در حال حاضر، به دلیل محدودیت تلگرام، فایل‌های پادکست قابل آپلود نیستند.\n👇🏼 می‌تونید پادکست رو از لینک زیر دریافت کنید:\n\n🔗 ";
 
@@ -135,7 +147,7 @@ function sendPodcast(chatId, mediaName) {
   bot.sendMessage(chatId, podcastFileUnavailable + podcastUrl);
 }
 
-function sendVideo(chatId, mediaName) {
+async function sendVideo(chatId, mediaName) {
   const videoFileUnavailable =
     "⚠️ در حال حاضر، به دلیل محدودیت تلگرام، فایل‌های موزیک ویدیو قابل آپلود نیستند.\n👇🏼 می‌تونید پادکست رو از لینک زیر دریافت کنید:\n\n🔗 ";
   const videoEndpoint = "https://host2.rj-mw1.com/media/music_video/hd/";
@@ -171,19 +183,24 @@ async function parseMessage(msg) {
     switch (messageText) {
       case "/start":
         bot.sendMessage(userId, welcomeMessage);
+        sendKeyboard(userId);
         break;
       case "📕 راهنما":
-        bot.sendMessage(
-          chatId,
-          "🔼 برای ارسال لینک آهنگ، پادکست یا ویدیو کافیه داخل اپ یا سایت رادیوجوان آهنگ رو Share کنید، تلگرام رو از لیست اپلیکیشن‌ها انتخاب کنید و اون رو برای ربات بفرستید",
-          {
-            reply_to_message_id: msg.message_id,
-          }
+        await bot.sendMessage(
+          userId,
+          "🔼 برای ارسال لینک آهنگ، پادکست یا ویدیو کافیه داخل اپ یا سایت رادیوجوان آهنگ رو Share کنید، تلگرام رو از لیست اپلیکیشن‌ها انتخاب کنید و اون رو برای ربات بفرستید"
+        );
+        break;
+      case "⏬ دانلود":
+        await bot.sendMessage(
+          userId,
+          "لطفاً لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
         );
         break;
       default:
-        bot.sendMessage(userId, wrongInputMessage);
+        await bot.sendMessage(userId, wrongInputMessage);
     }
+    sendKeyboard(userId)
   }
 }
 
