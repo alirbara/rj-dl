@@ -46,9 +46,9 @@ async function checkMember(userId) {
   }
 }
 
-async function sendKeyboard(chatId) {
+async function sendKeyboard(userId) {
   const mainMenu = [[{ text: "📕 راهنما" }, { text: "⏬ دانلود" }]];
-  bot.sendMessage(chatId, "⌨️ منوی اصلی 👇", {
+  bot.sendMessage(userId, "⌨️ منوی اصلی 👇", {
     reply_markup: JSON.stringify({
       keyboard: mainMenu,
       resize_keyboard: true,
@@ -104,8 +104,8 @@ async function addUser(msg) {
   }
 }
 
-function sendErrorMessage(chatId) {
-  bot.sendMessage(chatId, "خطایی پیش آمد‼️");
+function sendErrorMessage(userId) {
+  bot.sendMessage(userId, "خطایی پیش آمد‼️");
 }
 
 function parseUrl(url) {
@@ -116,38 +116,38 @@ function parseUrl(url) {
   return [url[3], url[4]];
 }
 
-async function sendMedia(chatId, url) {
+async function sendMedia(userId, url) {
   trackData = parseUrl(url);
   const mediaType = trackData[0];
   const mediaName = trackData[1];
 
-  addMedia(chatId, url, mediaType);
+  addMedia(userId, url, mediaType);
 
   switch (mediaType) {
     case "song":
-      await sendMusic(chatId, mediaName);
+      await sendMusic(userId, mediaName);
       break;
     case "podcast":
-      await sendPodcast(chatId, mediaName);
+      await sendPodcast(userId, mediaName);
       break;
     case "video":
-      await sendVideo(chatId, mediaName);
+      await sendVideo(userId, mediaName);
       break;
     default:
-      sendErrorMessage(chatId);
+      sendErrorMessage(userId);
   }
-  sendKeyboard(chatId);
+  sendKeyboard(userId);
 }
 
-async function sendMusic(chatId, mediaName) {
+async function sendMusic(userId, mediaName) {
   const musicEndpoint = "https://host2.rj-mw1.com/media/mp3/mp3-320/";
   const musicFileExtension = ".mp3";
 
   const musicUrl = musicEndpoint + mediaName + musicFileExtension;
-  bot.sendAudio(chatId, musicUrl);
+  bot.sendAudio(userId, musicUrl);
 }
 
-async function sendPodcast(chatId, mediaName) {
+async function sendPodcast(userId, mediaName) {
   const podcastFileUnavailable =
     "⚠️ در حال حاضر، به دلیل محدودیت تلگرام، فایل‌های پادکست قابل آپلود نیستند.\n👇🏼 می‌تونید پادکست رو از لینک زیر دریافت کنید:\n\n🔗 ";
 
@@ -155,17 +155,17 @@ async function sendPodcast(chatId, mediaName) {
   const podcastFileExtension = ".mp3";
 
   const podcastUrl = podcastEndpoint + mediaName + podcastFileExtension;
-  bot.sendMessage(chatId, podcastFileUnavailable + podcastUrl);
+  bot.sendMessage(userId, podcastFileUnavailable + podcastUrl);
 }
 
-async function sendVideo(chatId, mediaName) {
+async function sendVideo(userId, mediaName) {
   const videoFileUnavailable =
     "⚠️ در حال حاضر، به دلیل محدودیت تلگرام، فایل‌های موزیک ویدیو قابل آپلود نیستند.\n👇🏼 می‌تونید پادکست رو از لینک زیر دریافت کنید:\n\n🔗 ";
   const videoEndpoint = "https://host2.rj-mw1.com/media/music_video/hd/";
   const videoFileExtension = ".mp4";
 
   const videoUrl = videoEndpoint + mediaName + videoFileExtension;
-  bot.sendMessage(chatId, videoFileUnavailable + videoUrl);
+  bot.sendMessage(userId, videoFileUnavailable + videoUrl);
 }
 
 function followRedirects(url) {
