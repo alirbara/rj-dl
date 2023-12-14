@@ -47,10 +47,16 @@ async function checkMember(userId) {
 }
 
 async function sendKeyboard(userId) {
-  const mainMenu = [[{ text: "📕 راهنما" }, { text: "⏬ دانلود" }]];
+  const options = {
+    download: "⏬ دانلود",
+    guide: "📕 راهنما",
+    about: "📼 درباره",
+    donate: "💸 حمایت مالی"
+  }
+  const keyboard = [Object.values(options)]
   bot.sendMessage(userId, "⌨️ منوی اصلی 👇", {
     reply_markup: JSON.stringify({
-      keyboard: mainMenu,
+      keyboard: keyboard,
       resize_keyboard: true,
       one_time_keyboard: true,
     }),
@@ -227,6 +233,8 @@ async function parseMessage(msg) {
           "لطفاً لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
         );
         break;
+      case "👨🏻‍💻 درباره سازنده":
+        await bot.sendMessage(userId, "")
       default:
         await bot.sendMessage(userId, wrongInputMessage);
     }
