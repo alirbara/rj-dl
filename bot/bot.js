@@ -1,4 +1,3 @@
-
 const TelegramBot = require("node-telegram-bot-api");
 require("dotenv").config();
 const axios = require("axios");
@@ -46,14 +45,15 @@ async function checkMember(userId) {
   }
 }
 
+const options = {
+  download: "⏬ دانلود",
+  guide: "📕 راهنما",
+  about: "📼 درباره",
+  donate: "💸 حمایت مالی",
+};
+
 async function sendKeyboard(userId) {
-  const options = {
-    download: "⏬ دانلود",
-    guide: "📕 راهنما",
-    about: "📼 درباره",
-    donate: "💸 حمایت مالی"
-  }
-  const keyboard = [Object.values(options)]
+  const keyboard = [Object.values(options)];
   bot.sendMessage(userId, "⌨️ منوی اصلی 👇", {
     reply_markup: JSON.stringify({
       keyboard: keyboard,
@@ -233,8 +233,22 @@ async function parseMessage(msg) {
           "لطفاً لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
         );
         break;
-      case "👨🏻‍💻 درباره سازنده":
-        await bot.sendMessage(userId, "")
+      case options.about:
+        await bot.sendMessage(
+          userId,
+          `ساخته شده توسط: @alireza_baratian
+        سورس: https://github.com/AlirezaBaratian/rj-dl
+        `
+        );
+        break;
+      case options.donate:
+        await bot.sendMessage(
+          userId,
+          `اگه این ربات به دردتون خورده می‌تونید به کیف پول زیر ترون دونیت کنید:
+        TAB77BR4b6qPTnqoeBJxaXsoidSZN36mEu
+        `
+        );
+        break;
       default:
         await bot.sendMessage(userId, wrongInputMessage);
     }
