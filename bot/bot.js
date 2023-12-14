@@ -210,7 +210,7 @@ async function parseRequest(userId, url) {
 async function parseMessage(msg) {
   const messageText = msg.text;
   const userId = msg.from.id;
-  const welcomeMessage = "خوش آمدید! 🌹";
+  const welcomeMessage = "به ربات دانلود از رادیو جوان خوش آمدید! 😀";
   const wrongInputMessage = "پیامی که ارسال کردید اشتباهه! 😢";
 
   if (messageText.startsWith("https://")) {
@@ -221,13 +221,13 @@ async function parseMessage(msg) {
       case "/start":
         bot.sendMessage(userId, welcomeMessage);
         break;
-      case "📕 راهنما":
+      case options.guide:
         await bot.sendMessage(
           userId,
           "🔼 برای ارسال لینک آهنگ، پادکست یا ویدیو کافیه داخل اپ یا سایت رادیوجوان آهنگ رو Share کنید، تلگرام رو از لیست اپلیکیشن‌ها انتخاب کنید و اون رو برای ربات بفرستید"
         );
         break;
-      case "⏬ دانلود":
+      case options.download:
         await bot.sendMessage(
           userId,
           "لطفاً لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
