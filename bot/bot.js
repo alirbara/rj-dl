@@ -203,7 +203,7 @@ async function parseRequest(userId, url) {
     });
   } else {
     url = (await followRedirects(userId, url)) || url;
-    sendMedia(userId, url);
+    await sendMedia(userId, url);
   }
 }
 
