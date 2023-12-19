@@ -188,7 +188,7 @@ function followRedirects(url) {
 
 async function parseRequest(userId, url) {
   let userStatus = await checkMember(userId);
-  if (userStatus != "member") {
+  if (userStatus == "left") {
     bot.sendMessage(userId, "برای ادامه عضو کانال زیر شوید: 👇", {
       reply_markup: JSON.stringify({
         inline_keyboard: [
@@ -201,6 +201,11 @@ async function parseRequest(userId, url) {
         ],
       }),
     });
+  } else if (userStatus == "kicked") {
+    bot.sendMessage(
+      userId,
+      "شما از کانال بن شده‌اید و از اجازه استفاده از این ربات را ندارید. 🤕"
+    );
   } else {
     url = (await followRedirects(userId, url)) || url;
     await sendMedia(userId, url);
