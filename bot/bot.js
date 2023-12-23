@@ -35,6 +35,12 @@ const mediaSchema = new Schema(
 const User = mongoose.model("User", userSchema);
 const Media = mongoose.model("Media", mediaSchema);
 
+function detectUrl(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const matches = text.match(urlRegex)
+  return matches || []
+}
+
 async function checkMember(userId) {
   const channel = "@alireza_devops";
   try {
@@ -213,7 +219,7 @@ async function parseRequest(userId, url) {
 }
 
 async function parseMessage(msg) {
-  const messageText = msg.text;
+  const messageText = msg.text || msg.caption;
   const userId = msg.from.id;
   const welcomeMessage = "به ربات دانلود از رادیو جوان خوش آمدید! 😀";
   const wrongInputMessage = "پیامی که ارسال کردید اشتباهه! 😢";
@@ -221,7 +227,13 @@ async function parseMessage(msg) {
   if (messageText.startsWith("https://")) {
     let url = messageText;
     parseRequest(userId, url);
-  } else {
+  } 
+    else if (detectUrl(messageText).length !== 0) {
+      detectUrl(messageText).forEach(url => {
+        parseRequest(userId, url)
+      });
+    }
+  else {
     switch (messageText) {
       case "/start":
         bot.sendMessage(userId, welcomeMessage);
