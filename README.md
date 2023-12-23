@@ -1,6 +1,6 @@
 # Radio Javan Downloader
 
-Download [Radio Javan](https://play.radiojavan.com/) media simply by sharing a URL.
+Download [Radio Javan](https://play.radiojavan.com/) media only by its URL!
 
 ## Features
 
