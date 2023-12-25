@@ -236,7 +236,7 @@ async function parseMessage(msg) {
   else {
     switch (messageText) {
       case "/start":
-        bot.sendMessage(userId, welcomeMessage);
+        await bot.sendMessage(userId, welcomeMessage);
         break;
       case options.guide:
         await bot.sendMessage(
@@ -249,7 +249,7 @@ async function parseMessage(msg) {
           userId,
           "لطفاً لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
         );
-        break;
+        return
       case options.about:
         await bot.sendMessage(
           userId,
@@ -269,7 +269,7 @@ async function parseMessage(msg) {
       default:
         await bot.sendMessage(userId, wrongInputMessage);
     }
-    sendKeyboard(userId);
+    await sendKeyboard(userId);
   }
 }
 
@@ -278,8 +278,7 @@ async function followRedirects(userId, url) {
     let response = await axios.get(url);
     return response.request._redirectable._currentUrl;
   } catch (error) {
-    console.log(error);
-    sendErrorMessage(userId);
+    await sendErrorMessage(userId);
   }
 }
 
