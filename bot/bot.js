@@ -226,11 +226,11 @@ async function parseMessage(msg) {
 
   if (messageText.startsWith("https://")) {
     let url = messageText;
-    await parseRequest(userId, url);
+    parseRequest(userId, url);
   } 
     else if (detectUrl(messageText).length !== 0) {
       detectUrl(messageText).forEach(async url => {
-        await parseRequest(userId, url)
+        parseRequest(userId, url)
       });
     }
   else {
