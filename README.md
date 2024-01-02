@@ -18,22 +18,9 @@ I have this bot in production which you can use it for free [here](https://t.me/
 
 ## Run
 
-### Create a Bot
+- Create a Bot
 
 Use Telegram's [BotFather](https://t.me/BotFather) and register for a new bot. Copy your bot API token at the end.
-
-### Setup
-
-copy and paste this line onto your server:
-
-```bash
-bash <(curl -sSL "https://bit.ly/rj-dl")
-```
-
-- This script installs nodejs and the projects dependencies.
-- It installs [PM2](https://pm2.io) for running your bot as a production service.
-
-### Test
 
 - Clone the repo
 
