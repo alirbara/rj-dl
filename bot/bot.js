@@ -60,7 +60,7 @@ const options = {
 
 async function sendKeyboard(userId) {
   const keyboard = [Object.values(options)];
-  bot.sendMessage(userId, "⌨️ منوی اصلی 👇", {
+  await bot.sendMessage(userId, "⌨️ منوی اصلی 👇", {
     reply_markup: JSON.stringify({
       keyboard: keyboard,
       resize_keyboard: true,
@@ -116,8 +116,8 @@ async function checkUser(msg) {
   }
 }
 
-function sendErrorMessage(userId) {
-  bot.sendMessage(userId, "خطایی پیش آمد‼️");
+async function sendErrorMessage(userId) {
+  await bot.sendMessage(userId, "خطایی پیش آمد‼️");
 }
 
 function parseUrl(url) {
@@ -156,7 +156,7 @@ async function sendMusic(userId, mediaName) {
   const musicFileExtension = ".mp3";
 
   const musicUrl = musicEndpoint + mediaName + musicFileExtension;
-  bot.sendAudio(userId, musicUrl);
+  await bot.sendAudio(userId, musicUrl);
 }
 
 async function sendPodcast(userId, mediaName) {
@@ -167,7 +167,7 @@ async function sendPodcast(userId, mediaName) {
   const podcastFileExtension = ".mp3";
 
   const podcastUrl = podcastEndpoint + mediaName + podcastFileExtension;
-  bot.sendMessage(userId, podcastFileUnavailable + podcastUrl);
+  await bot.sendMessage(userId, podcastFileUnavailable + podcastUrl);
 }
 
 async function sendVideo(userId, mediaName) {
@@ -177,7 +177,7 @@ async function sendVideo(userId, mediaName) {
   const videoFileExtension = ".mp4";
 
   const videoUrl = videoEndpoint + mediaName + videoFileExtension;
-  bot.sendMessage(userId, videoFileUnavailable + videoUrl);
+  await bot.sendMessage(userId, videoFileUnavailable + videoUrl);
 }
 
 function followRedirects(url) {
@@ -195,7 +195,7 @@ function followRedirects(url) {
 async function parseRequest(userId, url) {
   let userStatus = await checkMember(userId);
   if (userStatus == "left") {
-    bot.sendMessage(userId, "برای ادامه عضو کانال زیر شوید: 👇", {
+    await bot.sendMessage(userId, "برای ادامه عضو کانال زیر شوید: 👇", {
       reply_markup: JSON.stringify({
         inline_keyboard: [
           [
@@ -208,7 +208,7 @@ async function parseRequest(userId, url) {
       }),
     });
   } else if (userStatus == "kicked") {
-    bot.sendMessage(
+    await bot.sendMessage(
       userId,
       "شما از کانال بن شده‌اید و از اجازه استفاده از این ربات را ندارید. 🤕"
     );
