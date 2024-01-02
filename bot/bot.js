@@ -90,17 +90,6 @@ async function addMedia(user_id, url, type) {
   }
 }
 
-async function checkUser(msg) {
-  try {
-    let user = await User.findOne({ telegram_id: msg.from.id });
-    if (!user) {
-      addUser(msg);
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
-
 async function addUser(msg) {
   const newUser = new User({
     _id: new ObjectId(),
@@ -111,6 +100,17 @@ async function addUser(msg) {
   });
   try {
     await newUser.save();
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function checkUser(msg) {
+  try {
+    let user = await User.findOne({ telegram_id: msg.from.id });
+    if (!user) {
+      addUser(msg);
+    }
   } catch (err) {
     console.log(err);
   }
