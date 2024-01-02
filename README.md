@@ -74,3 +74,8 @@ TRON network (TRC20): `TAB77BR4b6qPTnqoeBJxaXsoidSZN36mEu`
 ## Contribution
 
 Feel free to submit issues and PRs.
+
+## To-Do
+
+- [x] Add support for Radio Javan Telegram channel posts
+- [ ] Add support for playlists and albums
