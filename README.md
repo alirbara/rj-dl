@@ -79,4 +79,4 @@ Feel free to submit issues and PRs.
 
 - [x] Add support for Radio Javan Telegram channel posts
 - [ ] Add support for playlists and albums
-- [ ] Add support for local bot API server
+- [ ] Upload pdocasts and videos on Telegram
