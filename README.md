@@ -26,7 +26,7 @@ Use Telegram's [BotFather](https://t.me/BotFather) and register for a new bot. C
 
 ```bash
 git clone https://github.com/AlirezaBaratian/rj-dl.git 
-cd rj-dl
+cd rj-dl/bot
 ```
 
 - Install dependencies
