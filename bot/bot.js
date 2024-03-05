@@ -54,8 +54,7 @@ async function checkMember(userId) {
 const options = {
   download: "⏬ دانلود",
   guide: "📕 راهنما",
-  about: "📼 درباره",
-  donate: "💸 حمایت مالی",
+  about: "📼 درباره"
 };
 
 async function sendKeyboard(userId) {
@@ -255,14 +254,6 @@ async function parseMessage(msg) {
           userId,
           `ساخته شده توسط: @alireza_baratian
         سورس: https://github.com/AlirezaBaratian/rj-dl
-        `
-        );
-        break;
-      case options.donate:
-        await bot.sendMessage(
-          userId,
-          `اگه این ربات به دردتون خورده می‌تونید به کیف پول زیر ترون دونیت کنید:
-        TAB77BR4b6qPTnqoeBJxaXsoidSZN36mEu
         `
         );
         break;
