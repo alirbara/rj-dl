@@ -151,10 +151,10 @@ async function sendMedia(userId, url) {
 }
 
 async function sendMusic(userId, mediaName) {
-  const musicEndpoint = "https://host2.rj-mw1.com/media/mp3/mp3-320/";
+  let musicEndpoint = "https://host2.rj-mw1.com/media/mp3/mp3-320/";
   const musicFileExtension = ".mp3";
 
-  const musicUrl = musicEndpoint + mediaName + musicFileExtension;
+  let musicUrl = musicEndpoint + mediaName + musicFileExtension;
   try {
     await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
   } catch(err) {
