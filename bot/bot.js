@@ -37,8 +37,8 @@ const Media = mongoose.model("Media", mediaSchema);
 
 function detectUrl(text) {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const matches = text.match(urlRegex)
-  return matches || []
+  const matches = text.match(urlRegex);
+  return matches || [];
 }
 
 async function checkMember(userId) {
@@ -54,7 +54,7 @@ async function checkMember(userId) {
 const options = {
   download: "⏬ دانلود",
   guide: "📕 راهنما",
-  about: "📼 درباره"
+  about: "📼 درباره",
 };
 
 async function sendKeyboard(userId) {
@@ -156,11 +156,11 @@ async function sendMusic(userId, mediaName) {
 
   let musicUrl = musicEndpoint + mediaName + musicFileExtension;
   try {
-    await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
-  } catch(err) {
+    await bot.sendAudio(userId, musicUrl, { caption: "By @rjripbot" });
+  } catch (err) {
     musicEndpoint = "https://host1.rj-mw1.com/media/mp3/mp3-320/";
     musicUrl = musicEndpoint + mediaName + musicFileExtension;
-    await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
+    await bot.sendAudio(userId, musicUrl, { caption: "By @rjripbot" });
   }
 }
 
@@ -232,13 +232,11 @@ async function parseMessage(msg) {
   if (messageText.startsWith("https://")) {
     let url = messageText;
     await parseRequest(userId, url);
-  } 
-    else if (detectUrl(messageText).length !== 0) {
-      detectUrl(messageText).forEach( url => {
-        parseRequest(userId, url)
-      });
-    }
-  else {
+  } else if (detectUrl(messageText).length !== 0) {
+    detectUrl(messageText).forEach((url) => {
+      parseRequest(userId, url);
+    });
+  } else {
     switch (messageText) {
       case "/start":
         await bot.sendMessage(userId, welcomeMessage);
@@ -254,7 +252,7 @@ async function parseMessage(msg) {
           userId,
           "لطفاً لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
         );
-        return
+        return;
       case options.about:
         await bot.sendMessage(
           userId,
