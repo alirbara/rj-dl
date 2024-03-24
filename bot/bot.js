@@ -151,11 +151,17 @@ async function sendMedia(userId, url) {
 }
 
 async function sendMusic(userId, mediaName) {
-  const musicEndpoint = "https://host2.rj-mw1.com/media/mp3/mp3-320/";
+  let musicEndpoint = "https://host2.rj-mw1.com/media/mp3/mp3-320/";
   const musicFileExtension = ".mp3";
 
-  const musicUrl = musicEndpoint + mediaName + musicFileExtension;
-  await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
+  let musicUrl = musicEndpoint + mediaName + musicFileExtension;
+  try {
+    await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
+  } catch(err) {
+    musicEndpoint = "https://host1.rj-mw1.com/media/mp3/mp3-320/";
+    musicUrl = musicEndpoint + mediaName + musicFileExtension;
+    await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
+  }
 }
 
 async function sendPodcast(userId, mediaName) {
