@@ -155,7 +155,12 @@ async function sendMusic(userId, mediaName) {
   const musicFileExtension = ".mp3";
 
   const musicUrl = musicEndpoint + mediaName + musicFileExtension;
-  await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
+  try {
+    await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
+  } catch(err) {
+    musicEndpoint = "https://host1.rj-mw1.com/media/mp3/mp3-320/";
+    await bot.sendAudio(userId, musicUrl, {caption: "By @rjripbot"});
+  }
 }
 
 async function sendPodcast(userId, mediaName) {
