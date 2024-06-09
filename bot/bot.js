@@ -42,7 +42,7 @@ function detectUrl(text) {
 }
 
 async function checkMember(userId) {
-  const channel = "@alireza_devops";
+  const channel = "@rjrip";
   try {
     let user = await bot.getChatMember(channel, userId);
     return user.status;
