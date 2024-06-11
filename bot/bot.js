@@ -156,7 +156,7 @@ async function sendMusic(userId, mediaName) {
 
   let musicUrl = musicEndpoint + mediaName + musicFileExtension;
   try {
-    await bot.sendAudio(userId, musicUrl, { caption: "By @rjripbot" });
+    await bot.sendAudio(userId, musicUrl, { caption: "دانلود شده با: @rjripbot" });
   } catch (err) {
     musicEndpoint = "https://host1.rj-mw1.com/media/mp3/mp3-320/";
     musicUrl = musicEndpoint + mediaName + musicFileExtension;
