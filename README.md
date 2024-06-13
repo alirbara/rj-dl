@@ -16,37 +16,6 @@ You can also donate to this project to add more features, such as downloading pl
 
 I have this bot in production which you can use it for free [here](https://t.me/rjripbot).
 
-## Run
-
-- Create a Bot
-
-Use Telegram's [BotFather](https://t.me/BotFather) and register for a new bot. Copy your bot API token at the end.
-
-- Clone the repo
-
-```bash
-git clone https://github.com/AlirezaBaratian/rj-dl.git 
-cd rj-dl/bot
-```
-
-- Install dependencies
-
-```bash
-npm i
-```
-
-- Declare your bot token in .env
-
-```bash
-echo "BOT_TOKEN=<your-bot-token>" > .env
-```
-
-- Run the script
-
-```bash
-node bot.js
-```
-
 ## Credits
 
 - [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api)
