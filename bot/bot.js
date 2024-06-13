@@ -43,7 +43,7 @@ function detectUrl(text) {
 }
 
 async function checkMember(userId) {
-  const channel = "@rjrip";
+  const channel = `@${sponserChannel}`;
   try {
     let user = await bot.getChatMember(channel, userId);
     return user.status;
