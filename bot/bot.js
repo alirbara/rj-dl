@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const databaseName = "rjDownloaderDB";
 mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`);
 botToken = process.env.BOT_TOKEN;
+sponserChannel = process.env.SPONSER_CHANNEL;
 const bot = new TelegramBot(botToken, { polling: true });
 
 const ObjectId = mongoose.Types.ObjectId;
@@ -156,11 +157,15 @@ async function sendMusic(userId, mediaName) {
 
   let musicUrl = musicEndpoint + mediaName + musicFileExtension;
   try {
-    await bot.sendAudio(userId, musicUrl, { caption: "دانلود شده با: @rjripbot" });
+    await bot.sendAudio(userId, musicUrl, {
+      caption: "دانلود شده با: @rjripbot",
+    });
   } catch (err) {
     musicEndpoint = "https://host1.rj-mw1.com/media/mp3/mp3-320/";
     musicUrl = musicEndpoint + mediaName + musicFileExtension;
-    await bot.sendAudio(userId, musicUrl, { caption: "دانلود شده با: @rjripbot" });
+    await bot.sendAudio(userId, musicUrl, {
+      caption: "دانلود شده با: @rjripbot",
+    });
   }
 }
 
@@ -205,8 +210,8 @@ async function parseRequest(userId, url) {
         inline_keyboard: [
           [
             {
-              text: "😀 کانال شخصی توسعه دهنده ربات",
-              url: "https://t.me/alireza_devops",
+              text: "کانال حامی ربات:",
+              url: `https://t.me/${sponserChannel}`,
             },
           ],
         ],
@@ -244,20 +249,22 @@ async function parseMessage(msg) {
       case options.guide:
         await bot.sendMessage(
           userId,
-          "🔼 برای ارسال لینک آهنگ، پادکست یا ویدیو کافیه داخل اپ یا سایت رادیوجوان آهنگ رو Share کنید، تلگرام رو از لیست اپلیکیشن‌ها انتخاب کنید و اون رو برای ربات بفرستید"
+          "!لینک اهنگ یا ویدیو رو از رادیو جوان برام بفرست. راسی  حتی میتونی پستش از کانال رادیو جوان رو هم برام بفرستی"
         );
         break;
       case options.download:
         await bot.sendMessage(
           userId,
-          "لطفاً لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
+          "لینک آهنگ، پادکست یا ویدیویی که می‌خوای رو برام بفرست. 🔗"
         );
         return;
       case options.about:
         await bot.sendMessage(
           userId,
-          `ساخته شده توسط: @alireza_baratian
-        سورس: https://github.com/AlirezaBaratian/rj-dl
+          `لینک آهنگتو برام بفرست و فایلشو تحویل بگیر (:
+          کاری از @alir_bara
+          اگه ایده فیچری چیزی هم داشتی بهم پیام بده.
+          )
         `
         );
         break;
