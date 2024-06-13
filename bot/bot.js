@@ -205,7 +205,7 @@ function followRedirects(url) {
 async function parseRequest(userId, url) {
   let userStatus = await checkMember(userId);
   if (userStatus == "left") {
-    await bot.sendMessage(userId, "برای ادامه عضو کانال زیر شوید: 👇", {
+    await bot.sendMessage(userId, "برای ادامه عضو کانال زیر شده و مجددا start رو بزنید: 👇", {
       reply_markup: JSON.stringify({
         inline_keyboard: [
           [
