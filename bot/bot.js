@@ -205,18 +205,22 @@ function followRedirects(url) {
 async function parseRequest(userId, url) {
   let userStatus = await checkMember(userId);
   if (userStatus == "left") {
-    await bot.sendMessage(userId, "برای ادامه عضو کانال زیر شده و مجددا start رو بزنید: 👇", {
-      reply_markup: JSON.stringify({
-        inline_keyboard: [
-          [
-            {
-              text: "کانال حامی ربات:",
-              url: `https://t.me/${sponserChannel}`,
-            },
+    await bot.sendMessage(
+      userId,
+      "برای ادامه عضو کانال زیر شده و مجددا start رو بزنید: 👇",
+      {
+        reply_markup: JSON.stringify({
+          inline_keyboard: [
+            [
+              {
+                text: "کانال حامی ربات:",
+                url: `https://t.me/${sponserChannel}`,
+              },
+            ],
           ],
-        ],
-      }),
-    });
+        }),
+      }
+    );
   } else if (userStatus == "kicked") {
     await bot.sendMessage(
       userId,
@@ -262,8 +266,8 @@ async function parseMessage(msg) {
         await bot.sendMessage(
           userId,
           `لینک آهنگتو برام بفرست و فایلشو تحویل بگیر (:
-          کاری از @alir_bara
-          اگه ایده فیچری چیزی هم داشتی حتما بهم پیام بده.
+کاری از @alir_bara
+اگه ایده فیچری چیزی هم داشتی حتما بهم پیام بده.
         `
         );
         break;
