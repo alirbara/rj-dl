@@ -21,12 +21,6 @@ I have this bot in production which you can use it for free [here](https://t.me/
 - [node-telegram-bot-api](https://github.com/yagop/node-telegram-bot-api)
 - [mongoose](https://github.com/Automattic/mongoose)
 
-## Donation
-
-If you found this project helpful, you ca definitely donate:
-
-TRON network (TRC20): `TAB77BR4b6qPTnqoeBJxaXsoidSZN36mEu`
-
 ## Contribution
 
 Feel free to submit issues and PRs.
